@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+data:
+  background-image-location: "s3://final-group6/bkgrd.jpg"
+  your-name: "Group6"
