@@ -15,28 +15,30 @@ spec:
       containers:
       - name: flask-app
         image: 655028241628.dkr.ecr.us-east-1.amazonaws.com/final:application
+        ports:
+        - containerPort: 81
         env:
         - name: DBUSER
           valueFrom:
             secretKeyRef:
-              name: mysql-credentials
+              name: db-secret
               key: DBUSER
         - name: DBHOST
           valueFrom:
             secretKeyRef:
-              name: mysql-credentials
+              name: db-secret
               key: DBHOST
         - name: DBPWD
           valueFrom:
             secretKeyRef:
-              name: mysql-credentials
+              name: db-secret
               key: DBPWD
         - name: DATABASE
           valueFrom:
             secretKeyRef:
-              name: mysql-credentials
+              name: db-secret
               key: DATABASE
-        - name: BG_IMAGE_URL
+        - name: background_image_location
           valueFrom:
             configMapKeyRef:
               name: app-configmap
