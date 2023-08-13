@@ -54,7 +54,7 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 s3 = boto3.client('s3')
 
 # Retrieve the background image location from ConfigMap
-#from kubernetes import config, client
+from kubernetes import config, client
 
 # Load Kubernetes configuration
 config.load_incluster_config()
