@@ -5,10 +5,8 @@ metadata:
 spec:
   capacity:
     storage: 2Gi
-  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: gp2
-  awsElasticBlockStore:
-    volumeID: vol-0be518a25c21a4834
+  storageClassName: manual
+  hostPath:
+    path: "/mnt/data"
