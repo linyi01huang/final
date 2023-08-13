@@ -1,8 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: clo835-role
+  namespace: final
+  name: secret-reader-role
 rules:
 - apiGroups: [""]
-  resources: ["namespaces"]
-  verbs: ["create", "get", "list"]
+  resources: ["secrets"]
+  verbs: ["get"]

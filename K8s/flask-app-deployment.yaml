@@ -14,34 +14,28 @@ spec:
     spec:
       containers:
       - name: flask-app
-        image: 655028241628.dkr.ecr.us-east-1.amazonaws.com/final:application
+        image: 655028241628.dkr.ecr.us-east-1.amazonaws.com/app:myapp
         ports:
-        - containerPort: 81
+        - containerPort: 8080
         env:
-        - name: DBUSER
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DBUSER
-        - name: DBHOST
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DBHOST
-        - name: DBPWD
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DBPWD
-        - name: DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: DATABASE
-        - name: background_image_location
-          valueFrom:
-            configMapKeyRef:
-              name: app-configmap
-              key: background-image-location
-        - name: DBPORT
-          value: "3306"
+          - name: DBHOST
+            value: "mysql-service"  # This should match the service name of your MySQL deployment
+          - name: DBPORT
+            value: "3306"  # MySQL default port
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret  # This is the name of the secret you'll create
+                key: username
+          - name: DBPWD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: password
+          - name: DATABASE
+            value: "mysql" 
+          - name: background_image_location
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: background-image-location

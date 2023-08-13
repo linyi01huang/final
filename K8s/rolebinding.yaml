@@ -1,12 +1,13 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: clo835-rolebinding
+  namespace: final
+  name: secret-reader-rolebinding
 subjects:
 - kind: ServiceAccount
   name: clo835
-  namespace: default
+  namespace: final
 roleRef:
   kind: Role
-  name: clo835-role
+  name: secret-reader-role
   apiGroup: rbac.authorization.k8s.io
