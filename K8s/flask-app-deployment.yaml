@@ -1,11 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-deployment
-  labels:
-    app: flask-app
+  name: flask-app-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: flask-app
@@ -15,13 +13,33 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask
-        image: [YOUR_FLASK_DOCKER_IMAGE]
+      - name: flask-app
+        image: 655028241628.dkr.ecr.us-east-1.amazonaws.com/final:application
         env:
-        - name: BACKGROUND_IMAGE_URL
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: DBUSER
+        - name: DBHOST
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: DBHOST
+        - name: DBPWD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: DBPWD
+        - name: DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: DATABASE
+        - name: BG_IMAGE_URL
           valueFrom:
             configMapKeyRef:
-              name: my-configmap
-              key: background_image_url
-        ports:
-        - containerPort: 5000
+              name: app-configmap
+              key: background-image-location
+        - name: DBPORT
+          value: "3306"
