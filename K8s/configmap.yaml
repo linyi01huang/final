@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: my-configmap
-data:
-  background_image_url: https://upload.wikimedia.org/wikipedia/commons/5/5c/518097-background-hd.jpg
