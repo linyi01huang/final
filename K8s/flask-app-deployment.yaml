@@ -1,11 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-deployment
-  labels:
-    app: flask-app
+  name: flask-app-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: flask-app
@@ -15,13 +13,29 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask
-        image: [YOUR_FLASK_DOCKER_IMAGE]
-        env:
-        - name: BACKGROUND_IMAGE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: my-configmap
-              key: background_image_url
+      - name: flask-app
+        image: 655028241628.dkr.ecr.us-east-1.amazonaws.com/app:myapp
         ports:
-        - containerPort: 5000
+        - containerPort: 8080
+        env:
+          - name: DBHOST
+            value: "mysql-service"  # This should match the service name of your MySQL deployment
+          - name: DBPORT
+            value: "3306"  # MySQL default port
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret  # This is the name of the secret you'll create
+                key: username
+          - name: DBPWD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: password
+          - name: DATABASE
+            value: "mysql" 
+          - name: background_image_location
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: background-image-location
