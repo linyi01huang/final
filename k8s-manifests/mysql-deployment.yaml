@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
-  labels:
-    app: mysql
 spec:
   replicas: 1
   selector:
@@ -16,22 +14,17 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:latest
+        image: mysql:5.7
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: my-secret
-              key: password
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: my-secret
-              key: username
+              name: mysql-credentials
+              key: DBPWD
         volumeMounts:
         - mountPath: /var/lib/mysql
-          name: mysql-persistent-storage
+          name: mysql-storage
       volumes:
-      - name: mysql-persistent-storage
+      - name: mysql-storage
         persistentVolumeClaim:
-          claimName: my-pvc
+          claimName: mysql-pvc
